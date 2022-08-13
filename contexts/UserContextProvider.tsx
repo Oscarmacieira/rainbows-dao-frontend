@@ -25,13 +25,13 @@ export const UserContextProvider = ({ children: children }) => {
 				address: userAddress,
 			},
 		})
-			.then((data) => setUserDetail(data))
-			.catch((err) => console.log(err));
+			.then((data: any) => setUserDetail(data))
+			.catch((err: any) => console.log(err));
 	};
 
 	const editAvatar = async (newFile: any, onSuccess = () => {}) => {
 		user?.set("avatar", newFile);
-		await user?.save().then((data) => onSuccess());
+		await user?.save().then((data: any) => onSuccess());
 	};
 
 	const editUsername = async (
@@ -42,8 +42,8 @@ export const UserContextProvider = ({ children: children }) => {
 		user?.set("username", newUsername);
 		await user
 			?.save()
-			.then((data) => onSuccess())
-			.catch((error) => onError());
+			.then((data: any) => onSuccess())
+			.catch((error: any) => onError());
 	};
 
 	const editAbout = async (
@@ -54,8 +54,8 @@ export const UserContextProvider = ({ children: children }) => {
 		user?.set("about", newAbout);
 		await user
 			?.save()
-			.then((data) => onSuccess())
-			.catch((error) => onError());
+			.then((data: any) => onSuccess())
+			.catch((error: any) => onError());
 	};
 
 	const value = {
