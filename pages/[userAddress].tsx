@@ -20,7 +20,7 @@ export default function User() {
 	const { userDetail, editAbout, editAvatar, editUsername, getUserDetail } =
 		useContext(UserContext);
 
-	const [isUser, setIsUser] = useState<boolean>(
+	const [isUser, setIsUser] = useState<any>(
 		userAddress === user?.get("ethAddress") && account
 	);
 
