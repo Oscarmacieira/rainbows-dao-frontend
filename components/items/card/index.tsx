@@ -1,6 +1,11 @@
 import styled from "styled-components";
+type CardProps = {
+	width?: string;
+	height?: string;
+	fg2?: boolean;
+};
 
-export const Card = styled.section`
+export const Card = styled.section<CardProps>`
   width=${(props) => (props.width ? props.width : "100%")};
   height: ${(props) => (props.height ? props.height : "fit-content")};
   background: ${(props) =>

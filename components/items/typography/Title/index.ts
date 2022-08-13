@@ -1,6 +1,14 @@
 import styled from "styled-components";
 
-export const Title = styled.p`
+type TitleProps = {
+	small?: boolean;
+	medium: boolean;
+	large: boolean;
+	maj: boolean;
+	clickable: boolean;
+};
+
+export const Title = styled.p<TitleProps>`
 	font-size: ${(props) =>
 		props.small
 			? "1.3rem"

@@ -1,6 +1,12 @@
 import styled from "styled-components";
 
-export const TextArea = styled.textarea`
+type TextAreaProps = {
+	width?: string;
+	height?: string;
+	resize?: string;
+};
+
+export const TextArea = styled.textarea<TextAreaProps>`
 	background: ${({ theme }) => theme.palette.foreground1};
 	color: ${({ theme }) => theme.palette.primary};
 	border: none;

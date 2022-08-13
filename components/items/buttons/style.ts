@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
-export const Button = styled.button`
+type ButtonProps = {
+	text?: boolean;
+	outline?: boolean;
+};
+
+export const Button = styled.button<ButtonProps>`
 	padding: 10px 25px;
 	background: ${(props) =>
 		props.text || props.outline ? "transparent" : props.theme.palette.primary};
