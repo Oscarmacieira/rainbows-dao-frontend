@@ -1,5 +1,5 @@
 import Avatar from "@mui/material/Avatar";
-import { useRef, useState } from "react";
+import React, { CSSProperties, useRef, useState } from "react";
 import styled from "styled-components";
 import EditIcon from "@mui/icons-material/Edit";
 export default function AvatarPic({
@@ -11,7 +11,12 @@ export default function AvatarPic({
 	onChangeAvatar = (file: any) => {},
 }) {
 	const [isHover, setIsHover] = useState(false);
-	let styling = { width: 25, height: 25, position: "relative", cursor: "" };
+	let styling: CSSProperties = {
+		width: 25,
+		height: 25,
+		position: "relative",
+		cursor: "default",
+	};
 
 	const inputRef = useRef(null);
 	const handleAvatarClick = (e: any) => {
@@ -23,7 +28,7 @@ export default function AvatarPic({
 	const handleAvatarChange = (e: any) => {
 		onChangeAvatar(e?.target?.files[0]);
 	};
-	function setSize(pixels: number) {
+	function setSize(pixels) {
 		styling.width = pixels;
 		styling.height = pixels;
 		if (modify) {
