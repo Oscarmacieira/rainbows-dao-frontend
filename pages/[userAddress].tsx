@@ -9,7 +9,6 @@ import { Box } from "../components/items/box/style";
 import { UserBox } from "../elements/[userAddress]/UserBox";
 import { useMoralis } from "react-moralis";
 import { OneThirdTwoThird } from "../components/items/grid/style";
-import { useUserDetail } from "../hooks/useUserDetail";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { getShortWallet } from "../utils/shortWallet";
 import { UserContext } from "../contexts/UserContextProvider";
