@@ -1,5 +1,11 @@
 import styled from "styled-components";
-export const LogoIconStyle = styled.img<{ small: any; medium: any }>`
+
+type Logo = {
+	small?: boolean;
+	medium?: boolean;
+};
+
+export const LogoIconStyle = styled.img<Logo>`
 	width: ${(props) =>
 		props?.small ? "30px" : props?.medium ? "60px" : "100px"};
 `;
