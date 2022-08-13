@@ -11,9 +11,11 @@ import { useState } from "react";
 import { Button } from "../components/items/buttons/style";
 import { Input } from "../components/items/input/index";
 import { TextArea } from "../components/items/textarea/index";
+import { useToast } from "../hooks/useToast";
 
 export default function NewLoop() {
 	const { user, account, isAuthenticated } = useMoralis();
+	const { notify } = useToast();
 
 	const steps = ["Set up title", "Define Description", "Deploy loop"];
 	const [step, setStep] = useState(0);
@@ -25,6 +27,9 @@ export default function NewLoop() {
 		title: "",
 		description: "",
 	});
+	const deployNewLoop = () => {
+		notify({ type: "error", message: "Contracts are not connected yet" });
+	};
 
 	return (
 		<div>
@@ -128,7 +133,7 @@ export default function NewLoop() {
 										if (step < steps?.length - 1) {
 											incrStep();
 										} else {
-											console.log("deploy");
+											deployNewLoop();
 										}
 									}}
 									className={

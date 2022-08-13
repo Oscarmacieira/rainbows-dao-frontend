@@ -9,13 +9,14 @@ export default function AvatarPic({
 	indicator = true,
 	modify = false,
 	onChangeAvatar = (file: any) => {},
+	cursor = "default",
 }) {
 	const [isHover, setIsHover] = useState(false);
 	let styling: CSSProperties = {
 		width: 25,
 		height: 25,
 		position: "relative",
-		cursor: "default",
+		cursor: cursor,
 	};
 
 	const inputRef = useRef(null);

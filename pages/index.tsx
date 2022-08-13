@@ -4,8 +4,10 @@ import { HR } from "../components/items/hr/index";
 import { Title } from "../components/items/typography/Title/index";
 import Head from "next/head";
 import { Container } from "../components/layout/Container/style";
+import { useToast } from "../hooks/useToast";
 
 export default function Home() {
+	const { notify } = useToast();
 	return (
 		<>
 			<Head>
@@ -25,8 +27,9 @@ export default function Home() {
 				<div className="text-start flex-column" style={{ gap: 20 }}>
 					<Title maj>Popular loops</Title>
 					<LoopCard />
+					<LoopCard state="FUNDRAISING" />
 					<LoopCard />
-					<LoopCard />
+					<LoopCard state={"IMPLEMENTING"} />
 				</div>
 			</Container>{" "}
 		</>

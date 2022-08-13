@@ -3,7 +3,12 @@ import Popper, { PopperPlacementType } from "@mui/material/Popper";
 import Fade from "@mui/material/Fade";
 import styled from "styled-components";
 
-export const PopperEmpty = ({ opener, children, height = "500px" }) => {
+export const PopperEmpty = ({
+	opener,
+	children,
+	height = "500px",
+	autoOpen = true,
+}) => {
 	const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
 		null
 	);
@@ -61,6 +66,7 @@ export const PopperEmpty = ({ opener, children, height = "500px" }) => {
 						cursor: "pointer",
 						width: "fit-content",
 					}}
+					onMouseEnter={handleClick("bottom-end")}
 					onClick={handleClick("bottom-end")}
 				>
 					{opener}

@@ -7,5 +7,9 @@ export const useAppNavigation = () => {
 		router.push(userAddress);
 	};
 
-	return { goToProfile };
+	const goToNewLoop = () => {
+		return "new-loop";
+	};
+
+	return { goToProfile, goToNewLoop };
 };

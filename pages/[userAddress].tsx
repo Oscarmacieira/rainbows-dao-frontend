@@ -69,8 +69,8 @@ export default function User() {
 
 						<LoopCard className="my-2" newLoop={true} />
 						<LoopCard className="my-2" />
-						<LoopCard className="my-2" />
-						<LoopCard className="my-2" />
+						<LoopCard className="my-2" state="IMPLEMENTING" />
+						<LoopCard className="my-2" state="FUNDRAISING" />
 						<LoopCard className="my-2" />
 						<LoopCard className="my-2" />
 					</div>

@@ -18,7 +18,7 @@ import { UserContext } from "../../../contexts/UserContextProvider";
 export default function Header({ changeTheme, selectedTheme }) {
 	const { login, disconnect } = useConnect();
 	const { isAuthenticated, user, account, refetchUserData } = useMoralis();
-	const { goToProfile } = useAppNavigation();
+	const { goToProfile, goToNewLoop } = useAppNavigation();
 	const { userDetail, getUserDetail } = useContext(UserContext);
 	useEffect(() => getUserDetail(), [user]);
 
@@ -43,7 +43,14 @@ export default function Header({ changeTheme, selectedTheme }) {
 				</IconButton>
 				{isAuthenticated && user && account ? (
 					<PopperEmpty
-						opener={<AvatarPic size="medium" imgSrc={userDetail?.avatar} />}
+						autoOpen={true}
+						opener={
+							<AvatarPic
+								size="medium"
+								imgSrc={userDetail?.avatar}
+								cursor={"pointer"}
+							/>
+						}
 						height="fit-content"
 					>
 						<>
@@ -52,9 +59,11 @@ export default function Header({ changeTheme, selectedTheme }) {
 									Profile
 								</Title>
 							</Link>{" "}
-							<Title clickable small>
-								Dashboard
-							</Title>
+							<Link href={`${goToNewLoop()}`}>
+								<Title clickable small>
+									Create a Loop
+								</Title>
+							</Link>{" "}
 							<hr />
 							<Title clickable small>
 								Claim Testnet Matic
