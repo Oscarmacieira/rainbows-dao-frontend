@@ -1,18 +1,7 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Popper, { PopperPlacementType } from "@mui/material/Popper";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import Fade from "@mui/material/Fade";
-import Paper from "@mui/material/Paper";
 import styled from "styled-components";
-import { RoundButton } from "../RoundButton";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import { SquareButton } from "../SquareButton";
-import { Grid2 } from "../../../layout/grid/Grid2by2";
-import { CheckBoxApp } from "../CheckBox";
-import { PlainButton } from "../PlainButton";
 
 export const PopperEmpty = ({ opener, children, height = "500px" }) => {
 	const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
