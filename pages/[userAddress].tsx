@@ -1,0 +1,82 @@
+import Head from "next/head";
+import ParticleAnimation from "../components/animation/particle/index";
+import LoopCard from "../components/core/loopcard/index";
+import { HR } from "../components/items/hr/index";
+import { Title } from "../components/items/typography/Title/index";
+import { Container } from "../components/layout/Container/style";
+import { useRouter } from "next/router";
+import { Box } from "../components/items/box/style";
+import { UserBox } from "../elements/[userAddress]/UserBox";
+import { useMoralis } from "react-moralis";
+import { OneThirdTwoThird } from "../components/items/grid/style";
+import { useUserDetail } from "../hooks/useUserDetail";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { getShortWallet } from "../utils/shortWallet";
+import { UserContext } from "../contexts/UserContextProvider";
+import { useUserData } from "../hooks/User/useUserData";
+export default function User() {
+	const router = useRouter();
+	const { userAddress } = router.query;
+	const { user, refetchUserData, account } = useMoralis();
+	const { userDetail, editAbout, editAvatar, editUsername, getUserDetail } =
+		useContext(UserContext);
+
+	const [isUser, setIsUser] = useState(
+		userAddress === user?.get("ethAddress") && account
+	);
+
+	const { fetchUserData, userData } = useUserData({ userAddress: userAddress });
+
+	useEffect(() => {
+		if (!isUser) {
+			fetchUserData();
+		} else {
+			getUserDetail();
+		}
+	}, [userAddress]);
+
+	useEffect(() => {
+		setIsUser(userAddress === user?.get("ethAddress") && account);
+	}, [user, userAddress]);
+
+	return (
+		<div>
+			<Head>
+				<title>Rainbows DAO</title>
+				<meta
+					name="description"
+					content="Because technology rythm with virtuosity "
+				/>
+				<link rel="icon" href="/favicon.ico" />
+			</Head>
+			<Container>
+				<OneThirdTwoThird>
+					<div className="div1">
+						<UserBox
+							isUser={isUser}
+							address={getShortWallet(
+								isUser ? userDetail?.wallet : userData?.wallet
+							)}
+							description={isUser ? userDetail?.about : userData?.about}
+							imgSrc={isUser ? userDetail.avatar : userData?.avatar}
+							username={isUser ? userDetail?.username : userData?.username}
+							refrechData={() => getUserDetail()}
+						/>
+					</div>{" "}
+					<div className="div2">
+						<Title maj medium className="mb-3">
+							{isUser ? "My" : userData?.username} LOOPS
+						</Title>
+
+						<LoopCard fg2 className="my-2" newLoop={true} />
+						<LoopCard className="my-2" />
+						<LoopCard className="my-2" />
+						<LoopCard className="my-2" />
+						<LoopCard className="my-2" />
+						<LoopCard className="my-2" />
+					</div>
+				</OneThirdTwoThird>
+			</Container>
+		</div>
+	);
+}
