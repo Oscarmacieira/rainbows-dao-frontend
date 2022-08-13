@@ -7,7 +7,7 @@ export const useTheme = () => {
 	const [theme, setTheme] = useState(schema.data.light);
 	const [themeLoaded, setThemeLoaded] = useState(false);
 
-	const setMode = (mode: string) => {
+	const setMode = (mode: any) => {
 		storage.set("theme", mode);
 		setTheme(mode);
 	};
