@@ -60,7 +60,7 @@ export const UserBox = ({
 	};
 
 	return (
-		<Box fg2>
+		<Box>
 			<div
 				className="flex-column justify-content-center align-items-center"
 				style={{ gap: 10 }}

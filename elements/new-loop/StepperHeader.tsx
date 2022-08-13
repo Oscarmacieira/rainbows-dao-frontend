@@ -5,7 +5,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 export const StepperHeader = ({
 	steps,
 	currentStep,
-	handleStep = (value) => {},
+	handleStep = (value: any) => {},
 }) => {
 	return (
 		<Card
@@ -15,7 +15,7 @@ export const StepperHeader = ({
 				alignItems: "flex-start",
 			}}
 		>
-			{steps?.map((step, index) => (
+			{steps?.map((step: any, index: any) => (
 				<StepTitle
 					key={`step-${index}`}
 					title={step}
