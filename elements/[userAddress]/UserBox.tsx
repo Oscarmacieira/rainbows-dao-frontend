@@ -6,10 +6,9 @@ import { EditButton } from "../../components/items/buttons/editbutton/index";
 import { useContext, useState } from "react";
 import { Input } from "../../components/items/input/index";
 import { TextArea } from "../../components/items/textarea/index";
-import { useUserDetail } from "../../hooks/useUserDetail";
 import { useToast } from "../../hooks/useToast";
 import { useMoralisFile } from "react-moralis";
-import {UserContext} from "../../contexts/UserContextProvider";
+import { UserContext } from "../../contexts/UserContextProvider";
 export const UserBox = ({
 	isUser = false,
 	imgSrc = "",
