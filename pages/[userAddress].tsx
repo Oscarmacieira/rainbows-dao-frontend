@@ -20,7 +20,7 @@ export default function User() {
 	const { userDetail, editAbout, editAvatar, editUsername, getUserDetail } =
 		useContext(UserContext);
 
-	const [isUser, setIsUser] = useState(
+	const [isUser, setIsUser] = useState<boolean>(
 		userAddress === user?.get("ethAddress") && account
 	);
 
@@ -67,7 +67,7 @@ export default function User() {
 							{isUser ? "My" : userData?.username} LOOPS
 						</Title>
 
-						<LoopCard fg2 className="my-2" newLoop={true} />
+						<LoopCard className="my-2" newLoop={true} />
 						<LoopCard className="my-2" />
 						<LoopCard className="my-2" />
 						<LoopCard className="my-2" />
