@@ -4,7 +4,7 @@ type BoxProps = {
 	fg1?: boolean;
 };
 
-export const Box = styled.section<{ BoxProps }>`
+export const Box = styled.section<BoxProps>`
 	background-color: ${(props) =>
 		props.fg1
 			? props.theme.palette.foreground1
