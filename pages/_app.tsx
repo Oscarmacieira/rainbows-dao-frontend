@@ -41,9 +41,6 @@ function App({ Component, pageProps }: AppProps) {
 					hideProgressBar={false}
 					newestOnTop={false}
 					draggable={false}
-					pauseOnVisibilityChange
-					closeOnClick
-					pauseOnHover
 				/>{" "}
 			</ThemeProvider>
 		</MoralisProvider>
