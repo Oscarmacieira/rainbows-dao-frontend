@@ -22,7 +22,11 @@ export const WarningBox = () => {
 	);
 };
 
-const WarningBoxStyle = styled.section`
+type WarningBoxProps = {
+	fg1?: boolean;
+};
+
+const WarningBoxStyle = styled.section<WarningBoxProps>`
 	width: 100%;
 	height: 70vh;
 	background: ${(props) =>
