@@ -44,28 +44,27 @@ export default function Header({ changeTheme, selectedTheme }) {
 				{isAuthenticated && user && account ? (
 					<PopperEmpty
 						opener={<AvatarPic size="medium" imgSrc={userDetail?.avatar} />}
-						children={
-							<>
-								<Link href={`${user?.get("ethAddress")}`}>
-									<Title clickable small>
-										Profile
-									</Title>
-								</Link>{" "}
-								<Title clickable small>
-									Dashboard
-								</Title>
-								<hr />
-								<Title clickable small>
-									Claim Testnet Matic
-								</Title>
-								<hr />
-								<Title clickable small onClick={() => disconnect()}>
-									Log out
-								</Title>
-							</>
-						}
 						height="fit-content"
-					/>
+					>
+						<>
+							<Link href={`${user?.get("ethAddress")}`}>
+								<Title clickable small>
+									Profile
+								</Title>
+							</Link>{" "}
+							<Title clickable small>
+								Dashboard
+							</Title>
+							<hr />
+							<Title clickable small>
+								Claim Testnet Matic
+							</Title>
+							<hr />
+							<Title clickable small onClick={() => disconnect()}>
+								Log out
+							</Title>
+						</>
+					</PopperEmpty>
 				) : (
 					<Button outline onClick={() => login()}>
 						Connect
