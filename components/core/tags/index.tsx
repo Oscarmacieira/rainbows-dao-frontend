@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Tag = styled.div`
+export const Tag = styled.div<{ state: string }>`
 	width: fit-content;
 	padding: 10px 20px;
 	margin-top: 10px;
