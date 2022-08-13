@@ -2,10 +2,10 @@ import styled from "styled-components";
 
 type TitleProps = {
 	small?: boolean;
-	medium: boolean;
-	large: boolean;
-	maj: boolean;
-	clickable: boolean;
+	medium?: boolean;
+	large?: boolean;
+	maj?: boolean;
+	clickable?: boolean;
 };
 
 export const Title = styled.p<TitleProps>`
