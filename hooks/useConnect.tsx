@@ -24,11 +24,11 @@ export const useConnect = () => {
 			theme: theme.name === "Dark" ? "dark" : "light",
 			clientId: process.env.NEXT_PUBLIC_WEB3AUTH,
 		})
-			.then(function (user) {
+			.then(function (user: any) {
 				user?.set("isOnline", true);
 				user?.save();
 			})
-			.catch(function (error) {
+			.catch(function (error: any) {
 				console.log(error);
 			});
 	};
@@ -36,7 +36,7 @@ export const useConnect = () => {
 	const disconnect = async () => {
 		user?.set("isOnline", false);
 		await user?.save();
-		await logout().then(function (user) {
+		await logout().then(function (user: any) {
 			window.location.reload();
 		});
 	};

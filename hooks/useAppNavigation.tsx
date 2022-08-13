@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 export const useAppNavigation = () => {
 	const router = useRouter();
 
-	const goToProfile = (userAddress) => {
+	const goToProfile = (userAddress: any) => {
 		router.push(userAddress);
 	};
 

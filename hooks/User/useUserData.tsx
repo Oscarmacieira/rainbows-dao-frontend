@@ -17,8 +17,8 @@ export const useUserData = ({ userAddress }) => {
 
 	const fetchUserData = () => {
 		fetch()
-			.then((data) => setUserData(data))
-			.catch((err) => console.log(err));
+			.then((data: any) => setUserData(data))
+			.catch((err: any) => console.log(err));
 	};
 
 	return { fetchUserData, userData };
