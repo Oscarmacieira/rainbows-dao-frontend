@@ -18,7 +18,6 @@ import { UserContext } from "../../../contexts/UserContextProvider";
 import { useUnitBalance } from "../../../hooks/UnitToken/useUnitBalance";
 import { useMintUnit } from "../../../hooks/UnitToken/useMintUnit";
 import { toast } from "react-toastify";
-import { wait } from "../../../utils/time";
 export default function Header({ changeTheme, selectedTheme }) {
 	const { login, disconnect } = useConnect();
 	const { isAuthenticated, user, account, refetchUserData } = useMoralis();
