@@ -3,7 +3,7 @@ import { HR } from "../../components/items/hr/index";
 import { Title } from "../../components/items/typography/Title/index";
 import { NewPropoSalModal } from "./NewProposalModal";
 import { useMoralis } from "react-moralis";
-import { getProposalInLoop } from "../../pages/api/loop/getProposalInLoop";
+import { useGetProposalInLoop } from "../../pages/api/loop/useGetProposalInLoop";
 import { useEffect, useMemo } from "react";
 import { Box } from "../../components/items/box/style";
 import { getShortWallet } from "../../utils/shortWallet";
@@ -23,7 +23,7 @@ export default function ClosePlanCard({
 	refreshLoopData,
 }) {
 	const { account } = useMoralis();
-	const { proposals, fetchProposalInLoop } = getProposalInLoop(loopAddress);
+	const { proposals, fetchProposalInLoop } = useGetProposalInLoop(loopAddress);
 
 	function planTotalBudget(array) {
 		let total = 0;

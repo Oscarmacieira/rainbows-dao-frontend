@@ -5,14 +5,14 @@ import { Title } from "../components/items/typography/Title/index";
 import Head from "next/head";
 import { Container } from "../components/layout/Container/style";
 import { useToast } from "../hooks/useToast";
-import { getAllLoops } from "./api/getAllLoops";
+import { useGetAllLoops } from "./api/useGetAllLoops";
 
 import { useEffect, useState } from "react";
 import { PaginationStyled } from "../components/items/pagination/style";
 
 export default function Home() {
 	const { notify } = useToast();
-	const { loops, fetchAllLoops } = getAllLoops();
+	const { loops, fetchAllLoops } = useGetAllLoops();
 	const [page, setPage] = useState(1);
 	const handleChange = (event, value) => {
 		setPage(value);

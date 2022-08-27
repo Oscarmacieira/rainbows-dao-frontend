@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 
-export const getItemsInLoop = (loopAddress: any) => {
+export const useGetItemsInLoop = (loopAddress: any) => {
 	const [items, setItems] = useState<any>([]);
 	const { Moralis, isInitialized } = useMoralis();
 

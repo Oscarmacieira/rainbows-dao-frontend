@@ -98,7 +98,11 @@ export default function User() {
 						</div>
 						{isUser && <LoopCard className="my-2" newLoop={true} />}
 						{getCurrentLoops()?.map((loop, index) => (
-							<LoopCard className="my-2" loopAddress={loop} />
+							<LoopCard
+								className="my-2"
+								loopAddress={loop}
+								key={`loop-${index}`}
+							/>
 						))}{" "}
 						{pager}
 					</div>

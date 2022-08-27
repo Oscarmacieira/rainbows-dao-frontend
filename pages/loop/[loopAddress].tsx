@@ -16,9 +16,8 @@ import { useLoopData } from "../../hooks/Loop/useLoopData";
 import { useEffect, useState } from "react";
 import { useIsMember } from "../../hooks/Loop/useLoopContracts";
 import ClosePlanCard from "../../elements/loop/ClosePlanCard";
-import { getItemsInLoop } from "../api/loop/getItemsInLoop";
-import { getLoopPlan } from "../api/loop/getLoopPlan";
-
+import { useGetItemsInLoop } from "../api/loop/useGetItemsInLoop";
+import { useGetLoopPlan } from "../api/loop/useGetLoopPlan";
 export default function Loop() {
 	const router = useRouter();
 	const { loopAddress } = router.query;
@@ -37,8 +36,8 @@ export default function Loop() {
 	}, [isAuthenticated, isWeb3Enabled]);
 
 	const { getLoopData, loopData } = useLoopData(loopAddress);
-	const { items, fetchItemsInLoop } = getItemsInLoop(loopAddress);
-	const { plan, fetchLoopPlan } = getLoopPlan(loopAddress);
+	const { items, fetchItemsInLoop } = useGetItemsInLoop(loopAddress);
+	const { plan, fetchLoopPlan } = useGetLoopPlan(loopAddress);
 
 	const { isMember, getIsMember } = useIsMember(
 		loopAddress,
