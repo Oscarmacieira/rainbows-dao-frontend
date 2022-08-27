@@ -20,8 +20,7 @@ import { useAppNavigation } from "../hooks/useAppNavigation";
 
 declare var window: any;
 export default function NewLoop() {
-	const { user, account, isAuthenticated, Moralis, chainId, currentUser } =
-		useMoralis();
+	const { user, account, isAuthenticated, Moralis, chainId } = useMoralis();
 
 	const { goToLoop } = useAppNavigation();
 	const { notify } = useToast();
