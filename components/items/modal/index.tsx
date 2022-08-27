@@ -7,16 +7,6 @@ import { Title } from "../typography/Title/index";
 import { HR } from "../hr/index";
 import { Button } from "../buttons/style";
 
-const style = {
-	position: "absolute" as "absolute",
-	top: "50%",
-	left: "50%",
-	transform: "translate(-50%, -50%)",
-	width: 400,
-	border: "2px solid #000",
-	boxShadow: 24,
-};
-
 export default function BasicModal({
 	title = "The modal title",
 	cancelButtonText = "Cancel",
@@ -55,7 +45,7 @@ export default function BasicModal({
 				aria-labelledby="modal-modal-title"
 				aria-describedby="modal-modal-description"
 			>
-				<BoxStyle style={style}>
+				<BoxStyle>
 					<Title medium>{title}</Title>
 					<HR width="100%" height="1px" className="my-3" />
 					{children}
@@ -81,4 +71,11 @@ const BoxStyle = styled.div`
 	background: ${({ theme }) => theme.palette.foreground2};
 	color: ${({ theme }) => theme.palette.primary};
 	padding: 20px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 400px;
+	border: 2px solid ${({ theme }) => theme.palette.primary};
+	box-shadow: 24px;
 `;
