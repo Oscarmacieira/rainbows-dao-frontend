@@ -13,7 +13,6 @@ export const useDelegateToken = (loopAddress: string, tokenAddress: string) => {
 			params: {
 				abi: ABI,
 				contractAddress: tokenAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "delegate",
 				params: {
 					delegatee: user?.get("ethAddress"),
@@ -45,7 +44,6 @@ export const useDelegateToken = (loopAddress: string, tokenAddress: string) => {
 			params: {
 				abi: ABI,
 				contractAddress: tokenAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "delegates",
 				params: {
 					account: user?.get("ethAddress"),

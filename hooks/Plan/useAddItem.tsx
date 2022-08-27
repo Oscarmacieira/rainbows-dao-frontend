@@ -15,7 +15,6 @@ export const useAddAndRemoveItem = (
 			params: {
 				abi: ABI,
 				contractAddress: planAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "addItem",
 				params: {
 					title: title,
@@ -58,7 +57,6 @@ export const useAddAndRemoveItem = (
 			params: {
 				abi: ABI,
 				contractAddress: planAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "removeItem",
 				params: {
 					id: itemId,
@@ -93,7 +91,6 @@ export const useAddAndRemoveItem = (
 			params: {
 				abi: ABI,
 				contractAddress: planAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "itemHash",
 				params: {
 					title: title,

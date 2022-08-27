@@ -13,7 +13,6 @@ export const useGovernorState = (loopAddress: string, planAddress: string) => {
 			params: {
 				abi: ABI,
 				contractAddress: governorAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "state",
 				params: {
 					proposalId: proposalId,
@@ -34,7 +33,6 @@ export const useGovernorState = (loopAddress: string, planAddress: string) => {
 			params: {
 				abi: ABI,
 				contractAddress: governorAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "castVote",
 				params: {
 					proposalId: proposalId,

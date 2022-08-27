@@ -15,7 +15,6 @@ export const useUnitAllowance = (fundraiserAddress: string) => {
 			params: {
 				abi: ABI,
 				contractAddress: contracts["0x13881"]?.unit,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "allowance",
 				params: {
 					owner: user?.get("ethAddress"),
@@ -37,7 +36,6 @@ export const useUnitAllowance = (fundraiserAddress: string) => {
 			params: {
 				abi: ABI,
 				contractAddress: contracts["0x13881"]?.unit,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "approve",
 				params: {
 					spender: fundraiserAddress,

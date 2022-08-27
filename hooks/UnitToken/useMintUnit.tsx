@@ -13,7 +13,6 @@ export const useMintUnit = ({ amount = 2000 }) => {
 	const options: any = {
 		abi: UnitTokenABI,
 		contractAddress: contracts[chainId]?.unit,
-		chain: chainId,
 		functionName: "mint",
 		params: { amount: amount },
 	};

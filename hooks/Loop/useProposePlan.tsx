@@ -12,7 +12,6 @@ export const useProposePlan = (loopAddress: string, planAddress: string) => {
 			params: {
 				abi: ABILoop,
 				contractAddress: loopAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "proposePlan",
 			},
 			onError: (err: any) => {
@@ -46,7 +45,6 @@ export const useProposePlan = (loopAddress: string, planAddress: string) => {
 			params: {
 				abi: ABILoop,
 				contractAddress: loopAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "queueApprovePlan",
 			},
 			onError: (err: any) => {
@@ -75,7 +73,6 @@ export const useProposePlan = (loopAddress: string, planAddress: string) => {
 			params: {
 				abi: ABILoop,
 				contractAddress: loopAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "executeApprovePlan",
 			},
 			onError: (err: any) => {
@@ -108,7 +105,6 @@ export const useProposePlan = (loopAddress: string, planAddress: string) => {
 			params: {
 				abi: ABILoop,
 				contractAddress: loopAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "claimFunds",
 			},
 			onError: (err: any) => {

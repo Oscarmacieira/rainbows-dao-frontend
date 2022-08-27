@@ -15,7 +15,6 @@ export const useJoinAndLeaveLoop = (loopAddress: any, onSuccess = () => {}) => {
 			params: {
 				abi: ABI,
 				contractAddress: loopAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "join",
 			},
 			onError: (err) => {
@@ -46,7 +45,6 @@ export const useJoinAndLeaveLoop = (loopAddress: any, onSuccess = () => {}) => {
 			params: {
 				abi: ABI,
 				contractAddress: loopAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "leave",
 			},
 

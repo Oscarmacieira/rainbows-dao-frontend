@@ -25,7 +25,6 @@ export const useActionContract = (actionAddress: string) => {
 			params: {
 				abi: ABI,
 				contractAddress: actionAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "getAction",
 				params: {
 					itemId: itemId,
@@ -47,7 +46,6 @@ export const useActionContract = (actionAddress: string) => {
 					validatedBy: tx?.validatedBy,
 					cost: parseInt(tx?.cost?._hex),
 				});
-				console.log(actionData);
 			},
 		});
 	};
@@ -57,7 +55,6 @@ export const useActionContract = (actionAddress: string) => {
 			params: {
 				abi: ABI,
 				contractAddress: actionAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "createAction",
 				params: {
 					itemId: action?.itemId,
@@ -96,7 +93,6 @@ export const useActionContract = (actionAddress: string) => {
 			params: {
 				abi: ABI,
 				contractAddress: actionAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "validateAction",
 				params: {
 					itemId: itemId,
@@ -130,7 +126,6 @@ export const useActionContract = (actionAddress: string) => {
 			params: {
 				abi: ABI,
 				contractAddress: actionAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "executeAction",
 				params: {
 					itemId: itemId,
@@ -164,7 +159,6 @@ export const useActionContract = (actionAddress: string) => {
 			params: {
 				abi: ABILoop,
 				contractAddress: loopAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "payAction",
 				params: {
 					itemId: itemId,

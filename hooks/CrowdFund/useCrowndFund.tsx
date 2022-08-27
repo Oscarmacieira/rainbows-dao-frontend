@@ -25,7 +25,6 @@ export const useCrowdFund = (
 			params: {
 				abi: ABI,
 				contractAddress: fundraiserAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "campaigns",
 				params: {
 					"": 1,
@@ -55,7 +54,6 @@ export const useCrowdFund = (
 			params: {
 				abi: ABI,
 				contractAddress: fundraiserAddress,
-				chain: chainId ? chainId : "0x13881",
 				functionName: "pledge",
 				params: {
 					_id: 1,
