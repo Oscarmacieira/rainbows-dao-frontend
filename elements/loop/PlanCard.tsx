@@ -14,7 +14,6 @@ import { CreateItem } from "./CreateItem";
 import { DeleteItem } from "./DeleteItem";
 import { CreateAction } from "./CreateAction";
 import { useMoralis } from "react-moralis";
-import { getItemsInLoop } from "../../pages/api/loop/getItemsInLoop";
 import { useEffect, useMemo } from "react";
 import { Box } from "../../components/items/box/style";
 import { useActionContract } from "../../hooks/Action/useActionContract";
