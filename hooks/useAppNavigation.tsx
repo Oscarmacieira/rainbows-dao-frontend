@@ -4,12 +4,16 @@ export const useAppNavigation = () => {
 	const router = useRouter();
 
 	const goToProfile = (userAddress: any) => {
-		router.push(userAddress);
+		return `/${userAddress}`;
 	};
 
 	const goToNewLoop = () => {
-		return "new-loop";
+		return "/new-loop";
 	};
 
-	return { goToProfile, goToNewLoop };
+	const goToLoop = (loopAddress: string) => {
+		router.push(`/loop/${loopAddress}`);
+	};
+
+	return { goToProfile, goToNewLoop, goToLoop };
 };

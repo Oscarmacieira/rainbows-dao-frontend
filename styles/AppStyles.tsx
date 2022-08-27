@@ -219,6 +219,21 @@ background: linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(255,154,0,1) 10%, rg
     background:${({ theme }) => theme.palette.foreground2};
   }
 
+  .primary {
+    background:${({ theme }) => theme.palette.primary};
+  }
+
+  .text-primary {
+ 	color:${({ theme }) => theme.palette.primary};
+  }
+
+
+
+  .margin-auto {
+    width: fit-content;
+    margin-inline:auto;
+  }
+
 
  // #w3a-container {
  //	#w3a-modal {

@@ -6,21 +6,24 @@ import { Tag } from "../tags/index";
 import { useToast } from "../../../hooks/useToast";
 import Link from "../../../node_modules/next/link";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
+import { useLoopData } from "../../../hooks/Loop/useLoopData";
+import { useEffect } from "react";
 export default function LoopCard({
-	title = "Develop Rainbow",
-	description = "This loop is all about defining and engineering the core principles of Rainbow",
 	className = "",
 	newLoop = false,
-	state = "PLANNING",
+	loopAddress = "123",
 }) {
 	const { notify } = useToast();
 	const { goToNewLoop } = useAppNavigation();
 	const onSeeMore = () => {
-		notify({
-			type: "error",
-			message: "We are building the loop page",
-		});
+		goToLoop(loopAddress);
 	};
+
+	const { goToLoop } = useAppNavigation();
+	const { loopData, getLoopData } = useLoopData(loopAddress);
+	useEffect(() => {
+		getLoopData();
+	}, [loopAddress]);
 	return (
 		<LoopCardStyle
 			className={`flex-desktop justify-space-between ${className} ${
@@ -30,9 +33,16 @@ export default function LoopCard({
 			{!newLoop ? (
 				<>
 					<div>
-						<Title>{title}</Title>
-						<p className="my-2">{description}</p>
-						<Tag state={state}>{state}</Tag>
+						<Title>{loopData?.title}</Title>
+						<p className="my-2">{loopData?.description}</p>
+						<p>
+							<b>Contract address:</b> #{loopAddress}
+						</p>
+						<p>
+							<b>Member count: {loopData?.memberCount} </b>
+						</p>
+
+						<Tag state={loopData?.state}>{loopData?.state}</Tag>
 					</div>
 					<Button onClick={onSeeMore} outline>
 						See more

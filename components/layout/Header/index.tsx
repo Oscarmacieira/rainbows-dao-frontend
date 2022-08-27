@@ -1,5 +1,5 @@
 import LogoIcon from "../../branding/logo/icon/index";
-import { HeaderStyle } from "./style";
+import { HeaderStyle, UnitBalanceBox } from "./style";
 import IconButton from "@mui/material/IconButton";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
@@ -15,12 +15,21 @@ import { Title } from "../../items/typography/Title/index";
 import { useAppNavigation } from "../../../hooks/useAppNavigation";
 import Link from "../../../node_modules/next/link";
 import { UserContext } from "../../../contexts/UserContextProvider";
+import { useUnitBalance } from "../../../hooks/UnitToken/useUnitBalance";
+import { useMintUnit } from "../../../hooks/UnitToken/useMintUnit";
+import { toast } from "react-toastify";
+import { wait } from "../../../utils/time";
 export default function Header({ changeTheme, selectedTheme }) {
 	const { login, disconnect } = useConnect();
 	const { isAuthenticated, user, account, refetchUserData } = useMoralis();
 	const { goToProfile, goToNewLoop } = useAppNavigation();
-	const { userDetail, getUserDetail } = useContext(UserContext);
-	useEffect(() => getUserDetail(), [user]);
+	const { userDetail, getUserDetail, unitBalance } = useContext(UserContext);
+	const { getUnitBalance } = useUnitBalance();
+	const { mintUnitToken } = useMintUnit({ amount: 2000 });
+	useEffect(() => {
+		getUserDetail();
+		getUnitBalance();
+	}, [user]);
 
 	return (
 		<HeaderStyle>
@@ -45,16 +54,19 @@ export default function Header({ changeTheme, selectedTheme }) {
 					<PopperEmpty
 						autoOpen={true}
 						opener={
-							<AvatarPic
-								size="medium"
-								imgSrc={userDetail?.avatar}
-								cursor={"pointer"}
-							/>
+							<div className="flex align-items-center">
+								<UnitBalanceBox>{unitBalance} $UNIT</UnitBalanceBox>
+								<AvatarPic
+									size="medium"
+									imgSrc={userDetail?.avatar}
+									cursor={"pointer"}
+								/>
+							</div>
 						}
 						height="fit-content"
 					>
 						<>
-							<Link href={`${user?.get("ethAddress")}`}>
+							<Link href={`${goToProfile(userDetail?.wallet)}`}>
 								<Title clickable small>
 									Profile
 								</Title>
@@ -65,8 +77,23 @@ export default function Header({ changeTheme, selectedTheme }) {
 								</Title>
 							</Link>{" "}
 							<hr />
-							<Title clickable small>
-								Claim Testnet Matic
+							<Title
+								clickable
+								small
+								onClick={() => {
+									navigator.clipboard.writeText(userDetail?.wallet);
+									toast.success(
+										`Wallet address copied! Opening faucet page to a new tab!`
+									);
+									setTimeout(function () {
+										window.open("https://faucet.polygon.technology/", "_blank");
+									}, 3000);
+								}}
+							>
+								Claim Testnet $MATIC
+							</Title>
+							<Title clickable small onClick={() => mintUnitToken()}>
+								Mint $UNIT
 							</Title>
 							<hr />
 							<Title clickable small onClick={() => disconnect()}>

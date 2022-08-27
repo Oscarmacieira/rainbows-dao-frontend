@@ -13,6 +13,7 @@ export const useUserData = ({ userAddress }) => {
 		wallet: "",
 		avatar: "",
 		about: "",
+		memberIn: [],
 	});
 
 	const fetchUserData = () => {

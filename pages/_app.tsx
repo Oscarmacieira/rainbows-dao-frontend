@@ -1,4 +1,4 @@
-import { MoralisProvider, useMoralis } from "react-moralis";
+import { MoralisProvider } from "react-moralis";
 import { ThemeProvider } from "styled-components";
 import themes from "../theme/schema";
 import { AppProps } from "next/app";
@@ -23,6 +23,7 @@ function App({ Component, pageProps }: AppProps) {
 	if (!themeLoaded) return <></>;
 	return (
 		<MoralisProvider
+			initializeOnMount={true}
 			appId={process.env.NEXT_PUBLIC_APP_ID}
 			serverUrl={process.env.NEXT_PUBLIC_SERVER_URL}
 		>

@@ -17,7 +17,10 @@ export const UserContextProvider = ({ children: children }) => {
 		wallet: "",
 		avatar: "",
 		about: "",
+		memberIn: "",
 	});
+
+	const [unitBalance, setUnitBalance] = useState(100);
 
 	const getUserDetail = (userAddress = user?.get("ethAddress")) => {
 		fetch({
@@ -58,12 +61,19 @@ export const UserContextProvider = ({ children: children }) => {
 			.catch((error: any) => onError());
 	};
 
+	const getUnitBalance = () => {
+		setUnitBalance(100);
+	};
+
 	const value = {
 		userDetail,
 		getUserDetail,
 		editAbout,
 		editUsername,
 		editAvatar,
+		unitBalance,
+		setUnitBalance,
+		getUnitBalance,
 	};
 
 	return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

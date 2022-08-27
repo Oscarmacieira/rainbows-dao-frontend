@@ -12,9 +12,18 @@ import { Button } from "../components/items/buttons/style";
 import { Input } from "../components/items/input/index";
 import { TextArea } from "../components/items/textarea/index";
 import { useToast } from "../hooks/useToast";
+import contracts from "../constants/contractAddresses.json";
+import ABI from "../constants/abi/contracts/Loop.sol/Loop.json";
+import ByteCode from "../constants/bytecode/loop_bytecode.json";
+import { toast } from "react-toastify";
+import { useAppNavigation } from "../hooks/useAppNavigation";
 
+declare var window: any;
 export default function NewLoop() {
-	const { user, account, isAuthenticated } = useMoralis();
+	const { user, account, isAuthenticated, Moralis, chainId, currentUser } =
+		useMoralis();
+
+	const { goToLoop } = useAppNavigation();
 	const { notify } = useToast();
 
 	const steps = ["Set up title", "Define Description", "Deploy loop"];
@@ -27,8 +36,56 @@ export default function NewLoop() {
 		title: "",
 		description: "",
 	});
-	const deployNewLoop = () => {
-		notify({ type: "error", message: "Contracts are not connected yet" });
+
+	const deployNewLoop = async () => {
+		let Loop: any;
+		let loop: any;
+		const ethers = Moralis.web3Library;
+		const provider = await new ethers.providers.Web3Provider(window?.ethereum);
+		const signer = provider.getSigner();
+		console.log(signer, signer?.address, signer?._address);
+		Loop = await new ethers.ContractFactory(ABI, ByteCode?.bytecode, signer);
+		console.log(Loop);
+		await Loop.deploy(
+			loopDetails.title,
+			loopDetails.description,
+			contracts[chainId]?.unit,
+			contracts[chainId]?.rainbows
+		)
+			.then(async (res) => {
+				const notif = toast.loading(
+					"Please wait... We are creating a new loop!"
+				);
+				loop = res;
+				console.log(loop.address);
+				await loop
+					?.deployed()
+					.then(async function (result) {
+						toast.update(notif, {
+							render: `new loop deployed at ${loop?.address}`,
+							type: "success",
+							isLoading: false,
+							autoClose: true,
+							closeButton: true,
+						});
+						user?.add("memberIn", loop.address);
+						await user.save();
+						goToLoop(loop?.address);
+					})
+					.catch(function (e) {
+						console.log("error");
+						toast.update(notif, {
+							render: `ERROR, please contact us on Discord`,
+							type: "error",
+							isLoading: false,
+							autoClose: true,
+							closeButton: true,
+						});
+					});
+			})
+			.catch((err) => {
+				toast.error("Error, please contact us on Discord");
+			});
 	};
 
 	return (

@@ -9,6 +9,7 @@ export const CustomToaster = styled(ToastContainer)`
 		color: ${({ theme }) => theme.palette.primary};
 		-webkit-box-shadow: 0px 0px 16px 3px rgba(0, 0, 0, 0.77);
 		box-shadow: 0px 0px 16px 3px rgba(0, 0, 0, 0.77);
+		word-break: break-all;
 	}
 	.Toastify__toast-icon--info {
 		color: ${({ theme }) => theme.palette.primary};

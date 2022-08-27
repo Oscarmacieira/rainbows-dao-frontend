@@ -21,3 +21,15 @@ export const HeaderStyle = styled.header`
 		margin-right: auto;
 	}
 `;
+
+export const UnitBalanceBox = styled.div`
+	background: ${({ theme }) => theme.palette.foreground2};
+	padding: 10px 20px;
+	border-radius: 20px;
+	border: 1px solid ${({ theme }) => theme.palette.secondary};
+	position: relative;
+	right: -20px;
+	padding-right: 30px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+`;

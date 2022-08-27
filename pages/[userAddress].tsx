@@ -13,6 +13,7 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { getShortWallet } from "../utils/shortWallet";
 import { UserContext } from "../contexts/UserContextProvider";
 import { useUserData } from "../hooks/User/useUserData";
+import { PaginationStyled } from "../components/items/pagination/style";
 export default function User() {
 	const router = useRouter();
 	const { userAddress } = router.query;
@@ -37,6 +38,32 @@ export default function User() {
 	useEffect(() => {
 		setIsUser(userAddress === user?.get("ethAddress") && account);
 	}, [user, userAddress]);
+
+	const [page, setPage] = useState(1);
+	const handleChange = (event, value) => {
+		setPage(value);
+	};
+
+	const getCurrentLoops = () => {
+		const start = (page - 1) * 4;
+		const end = start + 4;
+
+		if (isUser) {
+			return userDetail?.memberIn.slice(start, end);
+		}
+		return userData?.memberIn.slice(start, end);
+	};
+
+	const pager = (
+		<PaginationStyled
+			count={Math.ceil(
+				isUser ? userDetail?.memberIn.length / 4 : userData?.memberIn.length / 4
+			)}
+			defaultPage={1}
+			onChange={(e, value) => handleChange(e, value)}
+			page={page}
+		/>
+	);
 
 	return (
 		<div>
@@ -63,16 +90,17 @@ export default function User() {
 						/>
 					</div>{" "}
 					<div className="div2">
-						<Title maj medium className="mb-3">
-							{isUser ? "My" : userData?.username} LOOPS
-						</Title>
-
-						<LoopCard className="my-2" newLoop={true} />
-						<LoopCard className="my-2" />
-						<LoopCard className="my-2" state="IMPLEMENTING" />
-						<LoopCard className="my-2" state="FUNDRAISING" />
-						<LoopCard className="my-2" />
-						<LoopCard className="my-2" />
+						<div className="flex maw-width align-items-center justify-space-between">
+							<Title maj medium className="mb-3">
+								{isUser ? "My" : userData?.username} LOOPS
+							</Title>
+							{pager}
+						</div>
+						{isUser && <LoopCard className="my-2" newLoop={true} />}
+						{getCurrentLoops()?.map((loop, index) => (
+							<LoopCard className="my-2" loopAddress={loop} />
+						))}{" "}
+						{pager}
 					</div>
 				</OneThirdTwoThird>
 			</Container>
