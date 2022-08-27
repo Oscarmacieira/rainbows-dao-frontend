@@ -3,7 +3,6 @@ import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
 import ABI from "../../constants/abi/contracts/Loop.sol/Loop.json";
 import contracts from "../../constants/contractAddresses.json";
 import { toast } from "react-toastify";
-import { useUnitBalance } from "./useUnitBalance";
 
 export const useJoinAndLeaveLoop = (loopAddress: any, onSuccess = () => {}) => {
 	const { chainId, user } = useMoralis();
