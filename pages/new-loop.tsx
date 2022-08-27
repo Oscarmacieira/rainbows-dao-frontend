@@ -42,9 +42,7 @@ export default function NewLoop() {
 		const ethers = Moralis.web3Library;
 		const provider = await new ethers.providers.Web3Provider(window?.ethereum);
 		const signer = provider.getSigner();
-		console.log(signer, signer?.address, signer?._address);
 		Loop = await new ethers.ContractFactory(ABI, ByteCode?.bytecode, signer);
-		console.log(Loop);
 		await Loop.deploy(
 			loopDetails.title,
 			loopDetails.description,
