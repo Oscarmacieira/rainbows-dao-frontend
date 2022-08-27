@@ -10,7 +10,7 @@ export const useLoopData = (loopAddress: any) => {
 	const { runContractFunction, data, error, isLoading, isFetching } =
 		useApiContract({
 			address: loopAddress,
-			chain: chainId ? chainId : "0x13881",
+			chain: "0x13881",
 			functionName: "getData",
 			abi: ABI,
 		});
@@ -56,4 +56,3 @@ export const useLoopData = (loopAddress: any) => {
 
 	return { getLoopData, loopData };
 };
-

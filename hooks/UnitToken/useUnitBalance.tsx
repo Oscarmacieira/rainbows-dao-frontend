@@ -20,7 +20,7 @@ export const useUnitBalance = () => {
 	const { runContractFunction, data, error, isLoading, isFetching } =
 		useApiContract({
 			address: contracts[chainId]?.unit,
-			chain: chainId,
+			chain: "0x13881",
 			functionName: "balanceOf",
 			abi: UnitTokenAbi,
 			params: { account: user?.get("ethAddress") },
