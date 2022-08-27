@@ -4,7 +4,7 @@ type NumberProps = {
 	alt?: boolean;
 };
 
-export const Number = styled.div`
+export const Number = styled.div<NumberProps>`
 	display: flex;
 	align-items: center;
 	justify-content: center;
