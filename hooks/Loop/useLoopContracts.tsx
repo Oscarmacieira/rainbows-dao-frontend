@@ -15,7 +15,14 @@ export const useIsMember = (loopAddress: any, userAddress: any) => {
 	const { native } = useMoralisWeb3Api();
 
 	const { Moralis, chainId, user } = useMoralis();
-	const options = {
+
+	const options: {
+		chain: "0x13881";
+		address: string;
+		function_name: string;
+		abi: object[];
+		params: {};
+	} = {
 		address: loopAddress,
 
 		chain: chainId ? chainId : "0x13881",
