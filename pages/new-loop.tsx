@@ -62,7 +62,7 @@ export default function NewLoop() {
 							render: `new loop deployed at ${loop?.address}`,
 							type: "success",
 							isLoading: false,
-							autoClose: true,
+							autoClose: 5000,
 							closeButton: true,
 						});
 						user?.add("memberIn", loop.address);
@@ -75,7 +75,7 @@ export default function NewLoop() {
 							render: `ERROR, please contact us on Discord`,
 							type: "error",
 							isLoading: false,
-							autoClose: true,
+							autoClose: 5000,
 							closeButton: true,
 						});
 					});
