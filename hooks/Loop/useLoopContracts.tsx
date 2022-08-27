@@ -17,7 +17,7 @@ export const useIsMember = (loopAddress: any, userAddress: any) => {
 	const { Moralis, chainId, user } = useMoralis();
 
 	const options: {
-		chain: string;
+		chain: "0x13881";
 		address: string;
 		function_name: string;
 		abi: object[];
