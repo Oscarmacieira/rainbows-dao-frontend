@@ -67,18 +67,7 @@ export default function Loop() {
 		else setDisplayed(plan);
 	}, [loopData, items, plan]);
 
-	useMoralisSubscription(
-		"JoinLeaveLoop",
-		(q) => q.matches("loop", loopAddress === undefined ? "" : loopAddress, "i"),
-		[loopAddress],
-		{
-			onCreate: (data) => getLoopData(),
-			onUpdate: (data) => getLoopData(),
-			onDelete: (data) => getLoopData(),
-		}
-	);
-
-	return (
+		return (
 		<div>
 			<Head>
 				<title>Rainbows DAO</title>

@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
 import { Tag } from "../../components/core/tags/index";
 import { Button } from "../../components/items/buttons/style";
-import { useMoralis } from "react-moralis";
+import { useMoralis, useMoralisSubscription } from "react-moralis";
 import { useJoinAndLeaveLoop } from "../../hooks/Loop/useJoinLoop";
 export default function DetailsCard({
 	title,
@@ -34,6 +34,18 @@ export default function DetailsCard({
 		refreshMembership();
 	});
 	const { account } = useMoralis();
+
+	useMoralisSubscription(
+		"JoinLeaveLoop",
+		(q) => q.matches("loop", loopAddress, "i"),
+		[loopAddress],
+		{
+			onCreate: (data) => refreshLoopData(),
+			onUpdate: (data) => refreshLoopData(),
+			onDelete: (data) => refreshLoopData(),
+		}
+	);
+
 	return (
 		<Card>
 			<Title maj medium className="text-center">
