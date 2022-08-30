@@ -69,12 +69,7 @@ export default function Loop() {
 
 	useMoralisSubscription(
 		"JoinLeaveLoop",
-		(q) =>
-			q.matches(
-				"loop",
-				typeof loopAddress === "string" ? loopAddress : "",
-				"i"
-			),
+		(q) => q.matches("loop", loopAddress.toLocaleString(), "i"),
 		[loopAddress],
 		{
 			onCreate: (data) => getLoopData(),
