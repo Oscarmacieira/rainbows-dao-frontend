@@ -69,15 +69,15 @@ export default function Loop() {
 
 	useMoralisSubscription(
 		"JoinLeaveLoop",
+		// eslint-disable-next-line
 		(q) => q.matches("loop", loopAddress, "i"),
-		[],
+		[loopAddress],
 		{
 			onCreate: (data) => getLoopData(),
 			onUpdate: (data) => getLoopData(),
 			onDelete: (data) => getLoopData(),
 		}
 	);
-
 
 	return (
 		<div>
