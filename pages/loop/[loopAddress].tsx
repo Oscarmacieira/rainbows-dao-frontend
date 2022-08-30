@@ -70,7 +70,7 @@ export default function Loop() {
 	useMoralisSubscription(
 		"JoinLeaveLoop",
 		// eslint-disable-next-line
-		(q) => q.matches("loop", loopAddress, "i"),
+		(q) => q.matches("loop", loopAddress.toString(), "i"),
 		[loopAddress],
 		{
 			onCreate: (data) => getLoopData(),
