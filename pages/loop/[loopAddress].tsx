@@ -69,8 +69,12 @@ export default function Loop() {
 
 	useMoralisSubscription(
 		"JoinLeaveLoop",
-		// eslint-disable-next-line
-		(q) => q.matches("loop", loopAddress.toString(), "i"),
+		(q) =>
+			q.matches(
+				"loop",
+				typeof loopAddress === "string" ? loopAddress : "",
+				"i"
+			),
 		[loopAddress],
 		{
 			onCreate: (data) => getLoopData(),
