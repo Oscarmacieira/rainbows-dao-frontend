@@ -5,7 +5,7 @@ import contracts from "../../constants/contractAddresses.json";
 import { toast } from "react-toastify";
 
 export const useJoinAndLeaveLoop = (loopAddress: any, onSuccess = () => {}) => {
-	const { chainId, user } = useMoralis();
+	const { chainId, user, Moralis } = useMoralis();
 	const { data, error, fetch, isFetching, isLoading } =
 		useWeb3ExecuteFunction();
 
@@ -22,16 +22,20 @@ export const useJoinAndLeaveLoop = (loopAddress: any, onSuccess = () => {}) => {
 			onSuccess: (tx: any) => {
 				console.log(tx);
 				toast.promise(
-					tx?.wait().then((final) => {
+					tx?.wait().then(async (final) => {
 						console.log(final);
+						await Moralis.Cloud.run("joinLoop", {
+							loopAddress: loopAddress,
+							userAddress: user?.get("ethAddress"),
+						});
 						onSuccess();
-						user?.addUnique("memberIn", loopAddress);
-						user?.save();
+						//	user?.addUnique("memberIn", loopAddress);
+						//	user?.save();
 					}),
 
 					{
 						pending: `Waiting for ${tx?.hash} to be validated`,
-						success: `You just join this loop 👌`,
+						success: `You just joined this loop 👌`,
 						error: "Promise rejected 🤯",
 					}
 				);
@@ -53,11 +57,15 @@ export const useJoinAndLeaveLoop = (loopAddress: any, onSuccess = () => {}) => {
 			onSuccess: (tx: any) => {
 				console.log(tx);
 				toast.promise(
-					tx?.wait().then((final) => {
+					tx?.wait().then(async (final) => {
 						console.log(final);
+						await Moralis.Cloud.run("leaveLoop", {
+							loopAddress: loopAddress,
+							userAddress: user?.get("ethAddress"),
+						});
 						onSuccess();
-						user?.remove("memberIn", loopAddress);
-						user?.save();
+						//		user?.remove("memberIn", loopAddress);
+						//	user?.save();
 					}),
 
 					{

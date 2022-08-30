@@ -15,7 +15,6 @@ export const useGetLoopPlan = (loopAddress: any) => {
 		let res = await Moralis.Cloud.run("getLoopPlan", {
 			loopAddress: loopAddress,
 		});
-	//	console.log(JSON.stringify(res, null, 4));
 		setPlan(res);
 	};
 

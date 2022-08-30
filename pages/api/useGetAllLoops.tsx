@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useMoralis } from "react-moralis";
+import { useMoralis, useMoralisSubscription } from "react-moralis";
 
 export const useGetAllLoops = () => {
 	const [loops, setLoops] = useState<any>([]);
@@ -11,6 +11,10 @@ export const useGetAllLoops = () => {
 		}
 		console.log("fetching All Loops");
 	}, [isInitialized]);
+
+	useMoralisSubscription("LoopCreated", (q) => q, [], {
+		onCreate: (data) => fetchAllLoops(),
+	});
 
 	const fetchAllLoops = async () => {
 		let res = await Moralis.Cloud.run("getAllLoops");

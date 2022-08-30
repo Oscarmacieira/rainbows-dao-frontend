@@ -57,7 +57,7 @@ export default function NewLoop() {
 				console.log(loop.address);
 				await loop
 					?.deployed()
-					.then(async function (result) {
+					.then(async function async(result) {
 						toast.update(notif, {
 							render: `new loop deployed at ${loop?.address}`,
 							type: "success",
@@ -65,8 +65,13 @@ export default function NewLoop() {
 							autoClose: 5000,
 							closeButton: true,
 						});
-						user?.add("memberIn", loop.address);
-						await user.save();
+						await Moralis.Cloud.run("joinLoop", {
+							loopAddress: loop?.address,
+							userAddress: user?.get("ethAddress"),
+						});
+
+						//user?.add("memberIn", loop.address);
+						//await user.save();
 						goToLoop(loop?.address);
 					})
 					.catch(function (e) {

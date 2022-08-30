@@ -7,7 +7,7 @@ export const useCrowdFund = (
 	loopAddress: string,
 	fundraiserAddress: string
 ) => {
-	const { chainId, Moralis, enableWeb3 } = useMoralis();
+	const { chainId, Moralis, enableWeb3, user } = useMoralis();
 
 	const { fetch } = useWeb3ExecuteFunction();
 	const [campaignPledge, setCampaignPledge] = useState({
@@ -61,13 +61,19 @@ export const useCrowdFund = (
 				},
 			},
 			onError: (err: any) => {
-				console.log(err);
+				toast.error(err?.data?.message);
 			},
 			onSuccess: (tx: any) => {
 				console.log(tx);
 				toast.promise(
 					tx?.wait().then(async (final: any) => {
 						console.log(final);
+						await Moralis.Cloud.run("saveNewPledge", {
+							amount: amount,
+							loopAddress: loopAddress,
+							fundraiserAddress: fundraiserAddress,
+							userAddress: user?.get("ethAddress"),
+						});
 						onSuccess();
 					}),
 

@@ -4,7 +4,7 @@ import ABI from "../../constants/abi/contracts/GovernorContract.sol/GovernorCont
 import { toast } from "react-toastify";
 
 export const useGovernorState = (loopAddress: string, planAddress: string) => {
-	const { chainId, Moralis } = useMoralis();
+	const { chainId, Moralis, user } = useMoralis();
 	const { fetch } = useWeb3ExecuteFunction();
 	const [governorState, setGovernorState] = useState(0);
 
@@ -47,6 +47,10 @@ export const useGovernorState = (loopAddress: string, planAddress: string) => {
 				toast.promise(
 					tx?.wait().then(async (final: any) => {
 						console.log(final);
+						await Moralis.Cloud.run("saveProposalVote", {
+							userAddress: user?.get("ethAddress"),
+							proposalId: proposalId,
+						});
 						onSuccess();
 					}),
 

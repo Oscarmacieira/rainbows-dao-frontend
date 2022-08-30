@@ -2,9 +2,9 @@ import { Card } from "../../components/items/card/index";
 import { HR } from "../../components/items/hr/index";
 import { Title } from "../../components/items/typography/Title/index";
 import { NewPropoSalModal } from "./NewProposalModal";
-import { useMoralis } from "react-moralis";
+import { useMoralis, useMoralisSubscription } from "react-moralis";
 import { useGetProposalInLoop } from "../../pages/api/loop/useGetProposalInLoop";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Box } from "../../components/items/box/style";
 import { getShortWallet } from "../../utils/shortWallet";
 import { Button } from "../../components/items/buttons/style";
@@ -13,17 +13,39 @@ import { Number } from "./style";
 import { useGovernorState } from "../../hooks/Governor/useGovernorState";
 import { LoopStateTag } from "../../components/core/tags/LoopStateTag";
 import { useProposePlan } from "../../hooks/Loop/useProposePlan";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import {
+	AVG_BLOCKTIME,
+	VOTING_DELAY,
+	VOTING_PERIOD,
+} from "../../constants/constants";
 export default function ClosePlanCard({
 	isMember = false,
+	totalMember = 2,
 	loopAddress,
 	governorAddress,
 	tokenAddress,
 	planAddress,
 	plan,
 	refreshLoopData,
+	totalLoopMember,
 }) {
 	const { account } = useMoralis();
 	const { proposals, fetchProposalInLoop } = useGetProposalInLoop(loopAddress);
+
+	useMoralisSubscription(
+		"PlanProposal",
+		(q) => q.matches("loop", loopAddress, "i"),
+		[],
+		{
+			onCreate: (data) => {
+				fetchProposalInLoop();
+			},
+			onUpdate: (data) => {
+				fetchProposalInLoop();
+			},
+		}
+	);
 
 	function planTotalBudget(array) {
 		let total = 0;
@@ -92,6 +114,9 @@ export default function ClosePlanCard({
 						loopAddress={loopAddress}
 						planAddress={planAddress}
 						plan={plan}
+						proposal={proposal}
+						totalMember={totalLoopMember}
+						fetchProposalInLoop={() => fetchProposalInLoop()}
 					/>
 				</Box>
 			))}
@@ -107,8 +132,11 @@ const ProposalBoxAction = ({
 	isMember,
 	refreshLoopData,
 	plan,
+	proposal,
+	totalMember,
+	fetchProposalInLoop,
 }) => {
-	const { isInitialized, account } = useMoralis();
+	const { isInitialized, account, user } = useMoralis();
 	const { governorState, getGovernorState, castVote } = useGovernorState(
 		loopAddress,
 		planAddress
@@ -117,6 +145,25 @@ const ProposalBoxAction = ({
 	const { queueApprovePlan, executeApprovePlan } = useProposePlan(
 		loopAddress,
 		planAddress
+	);
+	function refreshState() {
+		getGovernorState(governorAddress, proposalId);
+	}
+
+	useMoralisSubscription(
+		"PlanProposal",
+		(q) => q.matches("proposalId", proposalId, "i"),
+		[],
+		{
+			onCreate: (data) => {
+				refreshLoopData();
+				refreshState();
+			},
+			onUpdate: (data) => {
+				refreshLoopData();
+				refreshState();
+			},
+		}
 	);
 
 	function getNameState(state) {
@@ -153,55 +200,125 @@ const ProposalBoxAction = ({
 		return val;
 	}
 
-	function refreshState() {
-		getGovernorState(governorAddress, proposalId);
-	}
-
 	useEffect(() => {
 		if (isInitialized) {
 			refreshState();
 		}
 	}, [isInitialized]);
+
+	const createdAt = new Date(proposal?.createdAt);
+	const startDate = new Date(
+		createdAt.getTime() + AVG_BLOCKTIME["0x13881"] * VOTING_DELAY
+	);
+	const endDate = new Date(
+		startDate.getTime() + AVG_BLOCKTIME["0x13881"] * VOTING_PERIOD
+	);
+	const now = new Date();
+
+	const [diff, setDiff] = useState<any>({});
+	const futureDate = endDate;
+	const getDateDiff = (date1, date2) => {
+		const diff = new Date(date2.getTime() - date1.getTime());
+		return {
+			year: diff.getUTCFullYear() - 1970,
+			month: diff.getUTCMonth(),
+			day: diff.getUTCDate() - 1,
+			hour: diff.getUTCHours(),
+			minute: diff.getUTCMinutes(),
+			second: diff.getUTCSeconds(),
+		};
+	};
+
+	const formatDate = (date) => {
+		let d = new Date(date),
+			month = (d.getMonth() + 1).toString(),
+			day = d.getDate().toString(),
+			year = d.getFullYear().toString();
+
+		if (month.length < 2) month = "0" + month;
+		if (day.length < 2) day = "0" + day;
+
+		return [year, month, day].join("-");
+	};
+
+	useEffect(() => {
+		const timer = setInterval(() => {
+			setDiff(getDateDiff(new Date(), endDate));
+		}, 1000);
+		return () => clearInterval(timer);
+	}, []);
 	return (
 		<>
-			<div className="flex align-items-center" style={{ gap: 20 }}>
-				<LoopStateTag state={governorState}>
-					{getNameState(governorState)}
-				</LoopStateTag>
-				{governorState !== 7 && governorState !== 3 && (
-					<Button onClick={() => refreshState()} text>
-						Refresh state
-					</Button>
+			<div className="flex align-items-center max-width justify-space-between">
+				<div className="flex align-items-center" style={{ gap: 20 }}>
+					{governorState !== 7 && governorState !== 3 && (
+						<RefreshIcon className="hover-btn" onClick={() => refreshState()} />
+					)}{" "}
+					<LoopStateTag state={governorState}>
+						{getNameState(governorState)}
+					</LoopStateTag>
+				</div>{" "}
+				{isMember && account && (
+					<>
+						{governorState === 1 && (
+							<div className="flex align-items-center" style={{ gap: 20 }}>
+								<Button
+									disabled={proposal?.votes?.includes(user?.get("ethAddress"))}
+									onClick={() =>
+										castVote(governorAddress, proposalId, 1, () => {
+											fetchProposalInLoop();
+										})
+									}
+								>
+									{proposal?.votes?.includes(user?.get("ethAddress"))
+										? "Already voted!"
+										: "Vote for this plan"}{" "}
+								</Button>
+
+								<b>
+									{proposal?.votes?.length}/{totalMember}{" "}
+									{totalMember === 1 ? "vote " : "votes "}needed
+								</b>
+							</div>
+						)}{" "}
+						{governorState === 4 && (
+							<Button
+								onClick={() =>
+									queueApprovePlan(proposalId, () => refreshState())
+								}
+							>
+								Queue this plan{" "}
+							</Button>
+						)}{" "}
+						{governorState === 5 && (
+							<Button
+								onClick={() =>
+									executeApprovePlan(plan, proposalId, () => {
+										refreshState();
+										refreshLoopData();
+									})
+								}
+							>
+								Execute this plan{" "}
+							</Button>
+						)}
+					</>
 				)}{" "}
-			</div>
-			{isMember && account && (
-				<>
-					{governorState === 1 && (
-						<Button
-							onClick={() => castVote(governorAddress, proposalId, 1, () => {})}
-						>
-							Vote for this plan
-						</Button>
-					)}{" "}
-					{governorState === 4 && (
-						<Button onClick={() => queueApprovePlan(() => refreshState())}>
-							Queue this plan{" "}
-						</Button>
-					)}{" "}
-					{governorState === 5 && (
-						<Button
-							onClick={() =>
-								executeApprovePlan(plan, () => {
-									refreshState();
-									refreshLoopData();
-								})
-							}
-						>
-							Execute this plan{" "}
-						</Button>
+				{/*  
+	{now?.getTime() < endDate?.getTime() &&
+					(governorState === 0 || governorState === 1) && (
+						<Title small>
+							{now?.getTime() <= startDate?.getTime()
+								? "Vote starts"
+								: "Ending"}{" "}
+							in {diff?.day}d : {diff?.hour}h : {diff?.minute}min :{" "}
+							{diff?.second}
+							sec
+						</Title>
 					)}
-				</>
-			)}{" "}
+
+					*/}{" "}
+			</div>
 		</>
 	);
 };

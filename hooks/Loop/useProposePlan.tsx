@@ -4,7 +4,7 @@ import ABILoop from "../../constants/abi/contracts/Loop.sol/Loop.json";
 import { toast } from "react-toastify";
 
 export const useProposePlan = (loopAddress: string, planAddress: string) => {
-	const { chainId, Moralis } = useMoralis();
+	const { chainId, Moralis, user } = useMoralis();
 	const { fetch } = useWeb3ExecuteFunction();
 
 	const proposePlan = (plan, onSuccess) => {
@@ -40,7 +40,7 @@ export const useProposePlan = (loopAddress: string, planAddress: string) => {
 		});
 	};
 
-	const queueApprovePlan = (onSuccess) => {
+	const queueApprovePlan = (proposalId, onSuccess) => {
 		fetch({
 			params: {
 				abi: ABILoop,
@@ -55,6 +55,10 @@ export const useProposePlan = (loopAddress: string, planAddress: string) => {
 				toast.promise(
 					tx?.wait().then(async (final: any) => {
 						console.log(final);
+						await Moralis.Cloud.run("saveProposalState", {
+							state: "APPROVED",
+							proposalId: proposalId,
+						});
 						onSuccess();
 					}),
 
@@ -68,7 +72,7 @@ export const useProposePlan = (loopAddress: string, planAddress: string) => {
 		});
 	};
 
-	const executeApprovePlan = (plan, onSuccess) => {
+	const executeApprovePlan = (plan, proposalId, onSuccess) => {
 		fetch({
 			params: {
 				abi: ABILoop,
@@ -86,6 +90,10 @@ export const useProposePlan = (loopAddress: string, planAddress: string) => {
 						let res = await Moralis.Cloud.run("savePlanToLoop", {
 							loopAddress: loopAddress,
 							plan: plan,
+						});
+						await Moralis.Cloud.run("saveProposalState", {
+							state: "EXECUTED",
+							proposalId: proposalId,
 						});
 						onSuccess();
 					}),
@@ -116,6 +124,10 @@ export const useProposePlan = (loopAddress: string, planAddress: string) => {
 				toast.promise(
 					tx?.wait().then(async (final: any) => {
 						console.log(final);
+						await Moralis.Cloud.run("eventClaimFund", {
+							loopAddress: loopAddress,
+							userAddress: user?.get("ethAddress"),
+						});
 						onSuccess();
 					}),
 

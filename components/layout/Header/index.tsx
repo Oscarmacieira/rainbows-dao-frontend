@@ -28,7 +28,7 @@ export default function Header({ changeTheme, selectedTheme }) {
 	useEffect(() => {
 		getUserDetail();
 		getUnitBalance();
-	}, [user]);
+	}, [user, account]);
 
 	return (
 		<HeaderStyle>

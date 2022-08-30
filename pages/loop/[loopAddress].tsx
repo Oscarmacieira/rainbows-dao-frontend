@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { Container } from "../../components/layout/Container/style";
-import { useMoralis } from "react-moralis";
+import { useMoralis, useMoralisSubscription } from "react-moralis";
 import { OneThirdTwoThird } from "../../components/items/grid/style";
 import { useRouter } from "../../node_modules/next/router";
 import ContractsCard from "../../elements/loop/ContractsCard";
@@ -57,6 +57,7 @@ export default function Loop() {
 			fetchItemsInLoop();
 			fetchLoopPlan();
 			console.log("running");
+			console.log(plan);
 		}
 	}, [isInitialized, loopData]);
 
@@ -65,6 +66,18 @@ export default function Loop() {
 		if (loopData?.state === "PLANNING") setDisplayed(items);
 		else setDisplayed(plan);
 	}, [loopData, items, plan]);
+
+	useMoralisSubscription(
+		"JoinLeaveLoop",
+		(q) => q.matches("loop", loopAddress, "i"),
+		[],
+		{
+			onCreate: (data) => getLoopData(),
+			onUpdate: (data) => getLoopData(),
+			onDelete: (data) => getLoopData(),
+		}
+	);
+
 
 	return (
 		<div>
@@ -117,6 +130,7 @@ export default function Loop() {
 						{isMember && loopData?.state === "PLANNING" && items?.length > 0 && (
 							<>
 								<ClosePlanCard
+									totalLoopMember={loopData?.memberCount}
 									planAddress={loopData?.plan}
 									loopAddress={loopAddress}
 									governorAddress={loopData?.governor}

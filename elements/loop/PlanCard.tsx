@@ -13,7 +13,7 @@ import { TextArea } from "../../components/items/textarea/index";
 import { CreateItem } from "./CreateItem";
 import { DeleteItem } from "./DeleteItem";
 import { CreateAction } from "./CreateAction";
-import { useMoralis } from "react-moralis";
+import { useMoralis, useMoralisSubscription } from "react-moralis";
 import { useEffect, useMemo } from "react";
 import { Box } from "../../components/items/box/style";
 import { useActionContract } from "../../hooks/Action/useActionContract";
@@ -47,6 +47,15 @@ export default function PlanCard({
 		return [total];
 	}, [items]);
 
+	useMoralisSubscription(
+		"Action",
+		(q) => q.matches("loop", loopAddress, "i"),
+		[],
+		{
+			onCreate: (data) => refreshPlan(),
+		}
+	);
+
 	return (
 		<Card fg2>
 			<div className="flex align-items-center justify-space-between">
@@ -75,7 +84,7 @@ export default function PlanCard({
 							style={{ width: "2px", height: "100%", marginInline: "auto" }}
 						/>
 					</div>
-					<div className="ml-3 max-width">
+					<div className="ml-3 mb-3 max-width">
 						<Title small>{item?.title}</Title>
 						<p>{item?.description}</p>
 						<p>
@@ -151,19 +160,33 @@ const ActionBox = ({
 		refreshActionData();
 	}, [actionId]);
 
+	useMoralisSubscription(
+		"EventAction",
+		(q) => q.matches("itemId", itemId, "i"),
+		[],
+		{
+			onCreate: (data) => {
+				refreshActionData();
+				if (data.attributes.state === "PAID") {
+					refreshLoopData();
+				}
+			},
+		}
+	);
+
 	return (
-		<Box fg1 style={{ width: "100%" }} className="mb-3">
+		<Box fg1 style={{ width: "100%" }} className="my-3">
 			<div className="flex align-items-center justify-space-between">
 				<div>
-					<p>
-						Title:
-						<b> {title}</b>
-					</p>
+					<Title small>{title}</Title>{" "}
 					<p>
 						Payee: <i>{payee}</i>
 					</p>
 					<p>
-						Cost: <b>{actionData?.cost} $UNIT</b>
+						Cost:{" "}
+						<b>
+							{actionData?.cost} ${UNIT.ticker}
+						</b>
 					</p>
 					<i>Created by {getShortWallet(actionData?.createdBy)}</i>
 				</div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useMoralis } from "react-moralis";
+import { useMoralis, useMoralisSubscription } from "react-moralis";
 
 export const useGetItemsInLoop = (loopAddress: any) => {
 	const [items, setItems] = useState<any>([]);
@@ -10,6 +10,16 @@ export const useGetItemsInLoop = (loopAddress: any) => {
 			fetchItemsInLoop();
 		}
 	}, [isInitialized, loopAddress]);
+
+	useMoralisSubscription(
+		"Item",
+		(q) => q.matches("loop", loopAddress, "i"),
+		[],
+		{
+			onCreate: (data) => fetchItemsInLoop(),
+			onDelete: (data) => fetchItemsInLoop(),
+		}
+	);
 
 	const fetchItemsInLoop = async () => {
 		let res = await Moralis.Cloud.run("getItemsInLoop", {

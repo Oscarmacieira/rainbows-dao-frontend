@@ -19,6 +19,14 @@ export const useActionContract = (actionAddress: string) => {
 		validatedBy: ZERO_ADDRESS,
 	});
 
+	const MoralisEventAction = async (itemId, actionId, state) => {
+		await Moralis.Cloud.run("EventActionUpdate", {
+			itemId: itemId,
+			actionId: actionId,
+			state: state,
+		});
+	};
+
 	const getAction = (itemId, actionId) => {
 		console.log(itemId);
 		fetch({
@@ -35,6 +43,7 @@ export const useActionContract = (actionAddress: string) => {
 				console.log(err);
 			},
 			onSuccess: (tx: any) => {
+				console.log(tx);
 				setActionData({
 					...actionData,
 					createdBy: tx?.createdBy,
@@ -71,7 +80,7 @@ export const useActionContract = (actionAddress: string) => {
 				toast.promise(
 					tx?.wait().then(async (final: any) => {
 						console.log(final);
-						let res = await Moralis.Cloud.run("saveNewAction", {
+						await Moralis.Cloud.run("saveNewAction", {
 							action: action,
 						});
 
@@ -107,6 +116,7 @@ export const useActionContract = (actionAddress: string) => {
 				toast.promise(
 					tx?.wait().then(async (final: any) => {
 						console.log(final);
+						await MoralisEventAction(itemId, actionId, "VALIDATED");
 
 						onSuccess();
 					}),
@@ -141,6 +151,8 @@ export const useActionContract = (actionAddress: string) => {
 					tx?.wait().then(async (final: any) => {
 						console.log(final);
 
+						await MoralisEventAction(itemId, actionId, "EXECUTED");
+
 						onSuccess();
 					}),
 
@@ -174,6 +186,7 @@ export const useActionContract = (actionAddress: string) => {
 					tx?.wait().then(async (final: any) => {
 						console.log(final);
 
+						await MoralisEventAction(itemId, actionId, "PAID");
 						onSuccess();
 					}),
 
