@@ -22,7 +22,7 @@ export const useConnect = () => {
 
 			//	appLogo: logo,
 			theme: theme.name === "Dark" ? "dark" : "light",
-			clientId: process.env.NEXT_PUBLIC_WEB3AUTH,
+			clientId: String(process.env.NEXT_PUBLIC_WEB3AUTH),
 		})
 			.then(function (user: any) {
 				user?.set("isOnline", true);
